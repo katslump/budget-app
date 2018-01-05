@@ -97,6 +97,27 @@ var UIController = (function() {
             
         },
         
+        clearFields: function() {
+            var fields, fieldsArr;
+            
+            // Select fields you want to clear
+            fields = document.querySelectorAll(DOMstrings.inputDescription + ',' + DOMstrings.inputValue);
+            
+            // Convert list to array
+            // Tricks slice method into thinking we are giving it an array when we are actually giving it a list
+            
+            fieldsArr = Array.prototype.slice.call(fields);
+            
+            // Iterates over area and sets current element values to empty
+            fieldsArr.forEach(function(current, index, array) {
+                current.value = '';
+                current.description = '';
+            });
+            
+            //Reset focus back to description
+            fieldsArr[0].focus();
+        },
+        
         getDOMstrings: function() {
             return DOMstrings;
         }
@@ -140,10 +161,13 @@ var controller = (function(budgetCtrl, UICtrl) {
         // 3. Add the new item to the UI
         UICtrl.addListItem(newItem, input.type);
         
-        // 4. Calculate the budget
+        // 4. Clear the fields
+        UICtrl.clearFields();
+        
+        // 5. Calculate the budget
         
         
-        // 5. Display budget in UI
+        // 6. Display budget in UI
         
         
     };
