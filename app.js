@@ -167,6 +167,27 @@ var UIController = (function() {
         
     };
     
+     var formatNumber = function(num, type) {
+            var numSplit, integer, decimal;
+        /*  Formatting Rules
+            1) Need +/-
+            2) Exactly two trailing integers after decimal
+            3) Comma separating the thousands */
+
+            num = Math.abs(num);
+            num = num.toFixed(2);
+            numSplit = num.split('.');
+
+            integer = numSplit[0];
+            if (integer.length > 3) {
+                integer = integer.substr(0 , integer.length-3) + ',' + integer.substr(integer.length-3 , integer.length);
+            }
+
+            decimal = numSplit[1];
+
+           return (type === 'exp' ? '-' : '+') + ' ' + integer + '.' + decimal;
+        };
+    
     return {
         getInput: function() {
             return {
@@ -183,17 +204,17 @@ var UIController = (function() {
             if (type === 'inc') {
                 element = DOMstrings.incomeContainer;
                 
-                html = '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">+ %value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+                html = '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
             } else if (type === 'exp') {
                 element = DOMstrings.expensesContainer;
                 
-                html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">- %value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+                html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
             }
             
             // Replace placeholder text with actual data
             newHtml = html.replace('%id%', obj.id);
             newHtml = newHtml.replace('%description%', obj.description);
-            newHtml = newHtml.replace('%value%', obj.value);
+            newHtml = newHtml.replace('%value%', formatNumber(obj.value));
             
             // Insert HTML into DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);          
@@ -234,11 +255,13 @@ var UIController = (function() {
         },
         
         displayBudget: function(obj) {
+            var type;
+            obj.budget > 0 ? type === 'inc' : type === 'exp';
             
             // Update the budget, inc, exp, and percentage text contents
-            document.querySelector(DOMstrings.budgetLabel).textContent = obj.budget;
-            document.querySelector(DOMstrings.incomeLabel).textContent = obj.totalInc;
-            document.querySelector(DOMstrings.expensesLabel).textContent = obj.totalExp;
+            document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber(obj.budget, type);
+            document.querySelector(DOMstrings.incomeLabel).textContent = formatNumber(obj.totalInc, 'inc');
+            document.querySelector(DOMstrings.expensesLabel).textContent = formatNumber(obj.totalExp, 'exp');
             
             // If percentage is less than zero, show dashes to represent null
             if(obj.percentage > 0) {

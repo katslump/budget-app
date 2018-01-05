@@ -67,3 +67,10 @@
 	+ Display current month and year
 	+ Fix number formatting
 	+ Improve input field UX
+
+  2) Format rules
+	+ Decimal with two trailing integers
+	+ +/- signs implemented
+	+ Commas separating the thousands
+
+
