@@ -1,6 +1,6 @@
 # budget-app 
 
-## Planning
+## Planning - Stage 1
   1) Break up mockup into different actions
   
     + Add the event handler
@@ -41,5 +41,22 @@
     
     }(budgetController, UIController);
     
-    
+## Planning - Stage 2
+  1) Remaining actions
+
+	+ Add event handler to delete items
+	+ Remove the item from the structure
+	+ Remove the item from the UI
+	+ Recalculate budget
+	+ Update UI with new budget
+
+  2) Using Event Delegation
+
+	Event Bubbling --> Target Element --> Event Delegation
+	* We will use this to our advantage as event bubbles up
+
+	Use Cases:
+	1) We are interested in an element with lots of child elements
+	2) When we want an event handler attached to an element that is not yet in the DOM when our page is loaded
+
 
