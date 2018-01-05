@@ -60,3 +60,10 @@
 	2) When we want an event handler attached to an element that is not yet in the DOM when our page is loaded
 
 
+## Planning - Stage 3
+  1) Remaining actions
+	+ Calculate percentages
+	+ Update percentages in UI
+	+ Display current month and year
+	+ Fix number formatting
+	+ Improve input field UX
